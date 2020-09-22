@@ -1,0 +1,9 @@
+canvas {
+    margin: 0;
+    border: 1px solid blue;
+    padding: 0;
+}
+
+#filled {
+    background: black;
+}
