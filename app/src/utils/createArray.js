@@ -6,7 +6,7 @@ export const create2dArray = (num1, num2, num3) => {
         if (num3 === undefined) {
           arr[i].push(Math.round(Math.random()));
         } else {
-          arr[i].push(Math.round(0));
+          arr[i].push(0);
         }
       }
     }
