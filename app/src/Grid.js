@@ -1,14 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import produce from "immer";
-import "./Cell.css";
-import "./Grid.css";
+
 import { create2dArray } from "./utils/createArray";
 
 const Grid = (props) => {
   const [count, setCount] = useState(0);
+  const [userChoice, setUserChoice] = useState("none");
   const [arr, setArr] = useState(() => {
-    return create2dArray(25, 25, 0);
+    return create2dArray(30, 30, 0);
   });
+
+  console.log(userChoice);
 
   useEffect(() => {
     if (props.isRunning) {
@@ -22,7 +24,6 @@ const Grid = (props) => {
 
   const generateRandomGrid = () => {
     setArr((a) => {
-      console.log(a);
       return produce(a, (arrCopy) => {
         for (let i = 0; i < a.length; i++) {
           for (let j = 0; j < a[i].length; j++) {
@@ -31,6 +32,158 @@ const Grid = (props) => {
         }
       });
     });
+  };
+
+  const handleSelect = (e) => {
+    setUserChoice(e.target.value);
+    switch (userChoice) {
+      case "none":
+        return setArr((a) => {
+          return produce(a, (arrCopy) => {
+            for (let i = 0; i < a.length; i++) {
+              for (let j = 0; j < a[i].length; j++) {
+                arrCopy[i][j] = 0;
+              }
+            }
+          });
+        });
+      case "blinker":
+        return setArr((a) => {
+          return produce(a, (arrCopy) => {
+            for (let i = 0; i < a.length; i++) {
+              for (let j = 0; j < a[i].length; j++) {
+                arrCopy[13][15] = 1;
+                arrCopy[14][15] = 1;
+                arrCopy[15][15] = 1;
+              }
+            }
+          });
+        });
+      case "toad":
+        return setArr((a) => {
+          return produce(a, (arrCopy) => {
+            for (let i = 0; i < a.length; i++) {
+              for (let j = 0; j < a[i].length; j++) {
+                arrCopy[15][14] = 1;
+                arrCopy[15][15] = 1;
+                arrCopy[15][16] = 1;
+                arrCopy[16][13] = 1;
+                arrCopy[16][14] = 1;
+                arrCopy[16][15] = 1;
+              }
+            }
+          });
+        });
+      case "beacon":
+        return setArr((a) => {
+          return produce(a, (arrCopy) => {
+            for (let i = 0; i < a.length; i++) {
+              for (let j = 0; j < a[i].length; j++) {
+                arrCopy[13][13] = 1;
+                arrCopy[14][13] = 1;
+                arrCopy[13][14] = 1;
+                arrCopy[14][14] = 1;
+                arrCopy[15][15] = 1;
+                arrCopy[16][15] = 1;
+                arrCopy[15][16] = 1;
+                arrCopy[16][16] = 1;
+              }
+            }
+          });
+        });
+      case "pulsar":
+        return setArr((a) => {
+          return produce(a, (arrCopy) => {
+            for (let i = 0; i < a.length; i++) {
+              for (let j = 0; j < a[i].length; j++) {
+                arrCopy[11][14] = 1;
+                arrCopy[12][14] = 1;
+                arrCopy[13][14] = 1;
+                arrCopy[17][14] = 1;
+                arrCopy[18][14] = 1;
+                arrCopy[19][14] = 1;
+                arrCopy[11][16] = 1;
+                arrCopy[12][16] = 1;
+                arrCopy[13][16] = 1;
+                arrCopy[17][16] = 1;
+                arrCopy[18][16] = 1;
+                arrCopy[19][16] = 1;
+                arrCopy[11][9] = 1;
+                arrCopy[12][9] = 1;
+                arrCopy[13][9] = 1;
+                arrCopy[17][9] = 1;
+                arrCopy[18][9] = 1;
+                arrCopy[19][9] = 1;
+                arrCopy[11][9] = 1;
+                arrCopy[12][9] = 1;
+                arrCopy[13][9] = 1;
+                arrCopy[17][9] = 1;
+                arrCopy[18][9] = 1;
+                arrCopy[19][9] = 1;
+                arrCopy[11][21] = 1;
+                arrCopy[12][21] = 1;
+                arrCopy[13][21] = 1;
+                arrCopy[17][21] = 1;
+                arrCopy[18][21] = 1;
+                arrCopy[19][21] = 1;
+                arrCopy[11][21] = 1;
+                arrCopy[12][21] = 1;
+                arrCopy[13][21] = 1;
+                arrCopy[17][21] = 1;
+                arrCopy[18][21] = 1;
+                arrCopy[19][21] = 1;
+                arrCopy[14][11] = 1;
+                arrCopy[14][12] = 1;
+                arrCopy[14][13] = 1;
+                arrCopy[16][11] = 1;
+                arrCopy[16][12] = 1;
+                arrCopy[16][13] = 1;
+                arrCopy[14][17] = 1;
+                arrCopy[14][18] = 1;
+                arrCopy[14][19] = 1;
+                arrCopy[16][17] = 1;
+                arrCopy[16][18] = 1;
+                arrCopy[16][19] = 1;
+                arrCopy[9][11] = 1;
+                arrCopy[9][12] = 1;
+                arrCopy[9][13] = 1;
+                arrCopy[9][17] = 1;
+                arrCopy[9][18] = 1;
+                arrCopy[9][19] = 1;
+                arrCopy[21][11] = 1;
+                arrCopy[21][12] = 1;
+                arrCopy[21][13] = 1;
+                arrCopy[21][17] = 1;
+                arrCopy[21][18] = 1;
+                arrCopy[21][19] = 1;
+              }
+            }
+          });
+        });
+      case "pentadecathlon":
+        return setArr((a) => {
+          return produce(a, (arrCopy) => {
+            for (let i = 0; i < a.length; i++) {
+              for (let j = 0; j < a[i].length; j++) {
+                arrCopy[10][15] = 1;
+                arrCopy[11][15] = 1;
+                arrCopy[12][14] = 1;
+                arrCopy[12][16] = 1;
+                arrCopy[13][15] = 1;
+                arrCopy[14][15] = 1;
+                arrCopy[15][15] = 1;
+                arrCopy[16][15] = 1;
+                arrCopy[18][15] = 1;
+                arrCopy[19][15] = 1;
+                arrCopy[17][14] = 1;
+                arrCopy[17][16] = 1;
+              }
+            }
+          });
+        });
+      default:
+        return;
+    }
   };
 
   const checkGrid = () => {
@@ -95,6 +248,7 @@ const Grid = (props) => {
 
   const playButton = () => {
     checkGrid();
+    setCount((c) => (c += 1));
   };
 
   const clearButton = () => {
@@ -118,9 +272,10 @@ const Grid = (props) => {
           return arr1.map((subArr, y) => {
             return (
               <>
-                <canvas
+                <div
+                  className="cell"
                   key={`${x}, ${y}`}
-                  id={arr[x][y] === 0 ? "" : "filled"}
+                  id={`${arr[x][y] === 0 ? `${x},${y}` : "filled"}`}
                   onClick={
                     // checks to see if simulation is running
                     // if it is, return
@@ -140,9 +295,7 @@ const Grid = (props) => {
                           setArr(newArr);
                         }
                   }
-                  height="18"
-                  width="18"
-                ></canvas>
+                ></div>
               </>
             );
           });
@@ -155,6 +308,17 @@ const Grid = (props) => {
         <button onClick={startSim}>
           {!props.isRunning ? "Start" : "Stop"}
         </button>
+      </div>
+      <div>
+        <label htmlFor="choice">Select a cell formation</label>
+        <select onChange={handleSelect} name="choice" id="choice">
+          <option value="none">None</option>
+          <option value="toad">Toad</option>
+          <option value="beacon">Beacon</option>
+          <option value="blinker">Blinker</option>
+          <option value="pentadecathlon">Pentadecathlon</option>
+          <option value="pulsar">Pulsar</option>
+        </select>
       </div>
     </div>
   );
