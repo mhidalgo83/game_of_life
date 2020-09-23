@@ -1,31 +1,47 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import produce from "immer";
 import "./Cell.css";
 import "./Grid.css";
 import { create2dArray } from "./utils/createArray";
 
-const Grid = () => {
-  const [arr, setArr] = useState([]);
+const Grid = (props) => {
+  const [arr, setArr] = useState(() => {
+    let newArr = [];
+    for (let i = 0; i < 25; i++) {
+      newArr[i] = [];
+      for (let j = 0; j < 25; j++) {
+        newArr[i].push(0);
+      }
+    }
+    return newArr;
+  });
 
   useEffect(() => {
-    setArr(() => {
-      let arr = [];
-      for (let i = 0; i < 25; i++) {
-        arr[i] = [];
-        for (let j = 0; j < 25; j++) {
-          arr[i].push(0);
-        }
-      }
-      return arr;
-    });
-  }, []);
+    console.log(props.isRunning);
+    // setArr(() => {
+    //   let arr = [];
+    //   for (let i = 0; i < 25; i++) {
+    //     arr[i] = [];
+    //     for (let j = 0; j < 25; j++) {
+    //       arr[i].push(0);
+    //     }
+    //   }
+    //   return arr;
+    // });
+    if (props.isRunning) {
+      const interval = setInterval(() => {
+        checkGrid();
+      }, 500);
+      return () => clearInterval(interval);
+    }
+  }, [props.isRunning]);
 
   const generateRandomGrid = () => {
     setArr((a) => {
-      console.log(a)
+      console.log(a);
       return produce(a, (arrCopy) => {
         for (let i = 0; i < a.length; i++) {
-          for (let j = 0; j < a[i].length; j++) {        
+          for (let j = 0; j < a[i].length; j++) {
             arrCopy[i][j] = Math.round(Math.random());
           }
         }
@@ -33,7 +49,7 @@ const Grid = () => {
     });
   };
 
-  const playButton = () => {
+  const checkGrid = () => {
     setArr((a) => {
       return produce(a, (arrCopy) => {
         for (let x = 0; x < a.length; x++) {
@@ -89,6 +105,26 @@ const Grid = () => {
     });
   };
 
+  const startSim = () => {
+    props.setIsRunning(!props.isRunning);
+  };
+
+  const playButton = () => {
+    checkGrid();
+  };
+
+  const clearButton = () => {
+    setArr((a) => {
+      return produce(a, (arrCopy) => {
+        for (let i = 0; i < a.length; i++) {
+          for (let j = 0; j < a[i].length; j++) {
+            arrCopy[i][j] = 0;
+          }
+        }
+      });
+    });
+  };
+
   return (
     <div>
       <div id="canvas">
@@ -99,16 +135,25 @@ const Grid = () => {
                 <canvas
                   key={`${x}, ${y}`}
                   id={arr[x][y] === 0 ? "" : "filled"}
-                  onClick={() => {
-                    const newArr = produce(arr, (arrCopy) => {
-                      if (arrCopy[x][y] === 0) {
-                        arrCopy[x][y] = 1;
-                      } else {
-                        arrCopy[x][y] = 0;
-                      }
-                    });
-                    setArr(newArr);
-                  }}
+                  onClick={
+                    // checks to see if simulation is running
+                    // if it is, return
+                    props.isRunning
+                      ? () => {
+                          return;
+                        }
+                      : // if not, change state of cell
+                        () => {
+                          const newArr = produce(arr, (arrCopy) => {
+                            if (arrCopy[x][y] === 0) {
+                              arrCopy[x][y] = 1;
+                            } else {
+                              arrCopy[x][y] = 0;
+                            }
+                          });
+                          setArr(newArr);
+                        }
+                  }
                   height="18"
                   width="18"
                 ></canvas>
@@ -120,6 +165,10 @@ const Grid = () => {
       <div>
         <button onClick={generateRandomGrid}>Generate Random Grid</button>
         <button onClick={playButton}>Play</button>
+        <button onClick={clearButton}>Clear</button>
+        <button onClick={startSim}>
+          {!props.isRunning ? "Start" : "Stop"}
+        </button>
       </div>
     </div>
   );
