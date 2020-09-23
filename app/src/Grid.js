@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import produce from "immer";
 
 import { create2dArray } from "./utils/createArray";
@@ -10,8 +10,6 @@ const Grid = (props) => {
     return create2dArray(30, 30, 0);
   });
 
-  console.log(userChoice);
-
   useEffect(() => {
     if (props.isRunning) {
       const interval = setInterval(() => {
@@ -20,7 +18,8 @@ const Grid = (props) => {
       }, 500);
       return () => clearInterval(interval);
     }
-  }, [props.isRunning]);
+    selection(userChoice);
+  }, [props.isRunning, userChoice]);
 
   const generateRandomGrid = () => {
     setArr((a) => {
@@ -34,20 +33,12 @@ const Grid = (props) => {
     });
   };
 
-  const handleSelect = (e) => {
-    setUserChoice(e.target.value);
-    switch (userChoice) {
+  const selection = (s) => {
+    switch (s) {
       case "none":
-        return setArr((a) => {
-          return produce(a, (arrCopy) => {
-            for (let i = 0; i < a.length; i++) {
-              for (let j = 0; j < a[i].length; j++) {
-                arrCopy[i][j] = 0;
-              }
-            }
-          });
-        });
+        return;
       case "blinker":
+        clear();
         return setArr((a) => {
           return produce(a, (arrCopy) => {
             for (let i = 0; i < a.length; i++) {
@@ -60,6 +51,7 @@ const Grid = (props) => {
           });
         });
       case "toad":
+        clear();
         return setArr((a) => {
           return produce(a, (arrCopy) => {
             for (let i = 0; i < a.length; i++) {
@@ -75,6 +67,7 @@ const Grid = (props) => {
           });
         });
       case "beacon":
+        clear();
         return setArr((a) => {
           return produce(a, (arrCopy) => {
             for (let i = 0; i < a.length; i++) {
@@ -92,6 +85,7 @@ const Grid = (props) => {
           });
         });
       case "pulsar":
+        clear();
         return setArr((a) => {
           return produce(a, (arrCopy) => {
             for (let i = 0; i < a.length; i++) {
@@ -161,6 +155,7 @@ const Grid = (props) => {
           });
         });
       case "pentadecathlon":
+        clear();
         return setArr((a) => {
           return produce(a, (arrCopy) => {
             for (let i = 0; i < a.length; i++) {
@@ -184,6 +179,10 @@ const Grid = (props) => {
       default:
         return;
     }
+  };
+
+  const handleSelect = (e) => {
+    setUserChoice(e.target.value);
   };
 
   const checkGrid = () => {
@@ -235,6 +234,8 @@ const Grid = (props) => {
               } else if (neighbors === 3 && a[x][y] === 0) {
                 arrCopy[x][y] = 1;
               }
+            } else {
+              arrCopy[x][y] = 0;
             }
           }
         }
@@ -251,7 +252,7 @@ const Grid = (props) => {
     setCount((c) => (c += 1));
   };
 
-  const clearButton = () => {
+  const clear = () => {
     setArr((a) => {
       return produce(a, (arrCopy) => {
         for (let i = 0; i < a.length; i++) {
@@ -261,7 +262,13 @@ const Grid = (props) => {
         }
       });
     });
-    setCount(0);
+  };
+
+  const clearButton = () => {
+    if (!props.isRunning) {
+      clear();
+      setCount(0);
+    }
   };
 
   return (
@@ -310,15 +317,22 @@ const Grid = (props) => {
         </button>
       </div>
       <div>
-        <label htmlFor="choice">Select a cell formation</label>
-        <select onChange={handleSelect} name="choice" id="choice">
-          <option value="none">None</option>
-          <option value="toad">Toad</option>
-          <option value="beacon">Beacon</option>
-          <option value="blinker">Blinker</option>
-          <option value="pentadecathlon">Pentadecathlon</option>
-          <option value="pulsar">Pulsar</option>
-        </select>
+        <form>
+          <label htmlFor="choice">Select a cell formation</label>
+          <select
+            onChange={handleSelect}
+            name="choice"
+            id="choice"
+            value={userChoice}
+          >
+            <option value="none">None</option>
+            <option value="toad">Toad</option>
+            <option value="beacon">Beacon</option>
+            <option value="blinker">Blinker</option>
+            <option value="pentadecathlon">Pentadecathlon</option>
+            <option value="pulsar">Pulsar</option>
+          </select>
+        </form>
       </div>
     </div>
   );
