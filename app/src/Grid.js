@@ -5,32 +5,16 @@ import "./Grid.css";
 import { create2dArray } from "./utils/createArray";
 
 const Grid = (props) => {
+  const [count, setCount] = useState(0);
   const [arr, setArr] = useState(() => {
-    let newArr = [];
-    for (let i = 0; i < 25; i++) {
-      newArr[i] = [];
-      for (let j = 0; j < 25; j++) {
-        newArr[i].push(0);
-      }
-    }
-    return newArr;
+    return create2dArray(25, 25, 0);
   });
 
   useEffect(() => {
-    console.log(props.isRunning);
-    // setArr(() => {
-    //   let arr = [];
-    //   for (let i = 0; i < 25; i++) {
-    //     arr[i] = [];
-    //     for (let j = 0; j < 25; j++) {
-    //       arr[i].push(0);
-    //     }
-    //   }
-    //   return arr;
-    // });
     if (props.isRunning) {
       const interval = setInterval(() => {
         checkGrid();
+        setCount((c) => (c += 1));
       }, 500);
       return () => clearInterval(interval);
     }
@@ -123,10 +107,12 @@ const Grid = (props) => {
         }
       });
     });
+    setCount(0);
   };
 
   return (
     <div>
+      <h2>Generation #: {count}</h2>
       <div id="canvas">
         {arr.map((arr1, x) => {
           return arr1.map((subArr, y) => {

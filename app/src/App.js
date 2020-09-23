@@ -4,7 +4,7 @@ import "./App.css";
 
 function App() {
   const [isRunning, setIsRunning] = useState(false)
-  
+
   return (
     <div className="App">
       <Grid isRunning={isRunning} setIsRunning={setIsRunning}  />
