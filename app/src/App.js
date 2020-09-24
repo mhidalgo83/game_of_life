@@ -9,7 +9,7 @@ function App() {
       <h1>Game of Life</h1>
       <div className="container">
         <Grid isRunning={isRunning} setIsRunning={setIsRunning} />
-        <article>
+        <article className="description">
           <h2>What is the Game of Life?</h2>
           <p>The Game of Life is a cellular automaton, which is a mathematical simulation showing how a cell reacts to other cells around it. In this simulation, each cell in the grid is either alive (filled in) or dead (blank).</p>
           <h2>The Rules</h2>
