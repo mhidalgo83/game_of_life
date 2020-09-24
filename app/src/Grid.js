@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState} from "react";
 import produce from "immer";
-
+import Dropdown from "./Dropdown";
 import { create2dArray } from "./utils/createArray";
 
 const Grid = (props) => {
   const [count, setCount] = useState(0);
-  const [userChoice, setUserChoice] = useState("none");
+  const [userChoice, setUserChoice] = useState("");
   const [arr, setArr] = useState(() => {
     return create2dArray(30, 30, 0);
   });
@@ -20,6 +20,8 @@ const Grid = (props) => {
     }
     selection(userChoice);
   }, [props.isRunning, userChoice]);
+
+  
 
   const generateRandomGrid = () => {
     setArr((a) => {
@@ -278,62 +280,43 @@ const Grid = (props) => {
         {arr.map((arr1, x) => {
           return arr1.map((subArr, y) => {
             return (
-              <>
-                <div
-                  className="cell"
-                  key={`${x}, ${y}`}
-                  id={`${arr[x][y] === 0 ? `${x},${y}` : "filled"}`}
-                  onClick={
-                    // checks to see if simulation is running
-                    // if it is, return
-                    props.isRunning
-                      ? () => {
-                          return;
-                        }
-                      : // if not, change state of cell
-                        () => {
-                          const newArr = produce(arr, (arrCopy) => {
-                            if (arrCopy[x][y] === 0) {
-                              arrCopy[x][y] = 1;
-                            } else {
-                              arrCopy[x][y] = 0;
-                            }
-                          });
-                          setArr(newArr);
-                        }
-                  }
-                ></div>
-              </>
+              <div
+                className="cell"
+                key={`${x}, ${y}`}
+                id={`${arr[x][y] === 0 ? `${x},${y}` : "filled"}`}
+                onClick={
+                  // checks to see if simulation is running
+                  // if it is, return
+                  props.isRunning
+                    ? () => {
+                        return;
+                      }
+                    : // if not, change state of cell
+                      () => {
+                        const newArr = produce(arr, (arrCopy) => {
+                          if (arrCopy[x][y] === 0) {
+                            arrCopy[x][y] = 1;
+                          } else {
+                            arrCopy[x][y] = 0;
+                          }
+                        });
+                        setArr(newArr);
+                      }
+                }
+              ></div>
             );
           });
         })}
       </div>
-      <div>
-        <button onClick={generateRandomGrid}>Generate Random Grid</button>
-        <button onClick={playButton}>Play</button>
-        <button onClick={clearButton}>Clear</button>
-        <button onClick={startSim}>
+      <div className="btns">
+        <button className="btn" onClick={generateRandomGrid}>Random Grid</button>
+        <button className="btn" onClick={playButton}>Next Grid</button>
+        <button className="btn" onClick={clearButton}>Clear</button>
+        <button className="btn" onClick={startSim}>
           {!props.isRunning ? "Start" : "Stop"}
         </button>
       </div>
-      <div>
-        <form>
-          <label htmlFor="choice">Select a cell formation</label>
-          <select
-            onChange={handleSelect}
-            name="choice"
-            id="choice"
-            value={userChoice}
-          >
-            <option value="none">None</option>
-            <option value="toad">Toad</option>
-            <option value="beacon">Beacon</option>
-            <option value="blinker">Blinker</option>
-            <option value="pentadecathlon">Pentadecathlon</option>
-            <option value="pulsar">Pulsar</option>
-          </select>
-        </form>
-      </div>
+      <Dropdown handleSelect={handleSelect} userChoice={userChoice} />
     </div>
   );
 };
