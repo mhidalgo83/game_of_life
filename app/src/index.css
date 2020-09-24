@@ -21,9 +21,32 @@ code {
   flex-direction: column;
 }
 
+.btns {
+  width: 60%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 2% auto;
+}
+
+.btn {
+  width: 20%;
+  background:  rgba(34, 193, 195, 1);
+  border: 1px solid black;
+  padding: 2%;
+  border-radius: 10px;
+  transition: all .2s;
+}
+
+.btn:hover {
+  box-shadow: 10px 10px 30px 0px rgba(0,0,0,0.5);
+  cursor: pointer;
+}
+
 .container {
   display: grid;
   grid-template-columns: 50% 50%;
+  margin: 0 2%;
 }
 
 .cell {
@@ -32,6 +55,10 @@ code {
 
   height: 18px;
   width: 18px;
+}
+
+.dropdown {
+  margin: 2% 0;
 }
 
 #filled {
@@ -56,4 +83,9 @@ code {
   margin: auto;
   display: flex;
   flex-wrap: wrap;
+  border-radius: 5px;
+}
+
+#canvas:hover {
+  cursor: pointer;
 }
