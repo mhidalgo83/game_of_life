@@ -1,11 +1,10 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import produce from "immer";
 import Dropdown from "./Dropdown";
 import { create2dArray } from "./utils/createArray";
 
 const Grid = (props) => {
   const [count, setCount] = useState(0);
-  const [userChoice, setUserChoice] = useState("");
   const [arr, setArr] = useState(() => {
     return create2dArray(30, 30, 0);
   });
@@ -18,10 +17,7 @@ const Grid = (props) => {
       }, 500);
       return () => clearInterval(interval);
     }
-    selection(userChoice);
-  }, [props.isRunning, userChoice]);
-
-  
+  }, [props.isRunning]);
 
   const generateRandomGrid = () => {
     setArr((a) => {
@@ -33,158 +29,6 @@ const Grid = (props) => {
         }
       });
     });
-  };
-
-  const selection = (s) => {
-    switch (s) {
-      case "none":
-        return;
-      case "blinker":
-        clear();
-        return setArr((a) => {
-          return produce(a, (arrCopy) => {
-            for (let i = 0; i < a.length; i++) {
-              for (let j = 0; j < a[i].length; j++) {
-                arrCopy[13][15] = 1;
-                arrCopy[14][15] = 1;
-                arrCopy[15][15] = 1;
-              }
-            }
-          });
-        });
-      case "toad":
-        clear();
-        return setArr((a) => {
-          return produce(a, (arrCopy) => {
-            for (let i = 0; i < a.length; i++) {
-              for (let j = 0; j < a[i].length; j++) {
-                arrCopy[15][14] = 1;
-                arrCopy[15][15] = 1;
-                arrCopy[15][16] = 1;
-                arrCopy[16][13] = 1;
-                arrCopy[16][14] = 1;
-                arrCopy[16][15] = 1;
-              }
-            }
-          });
-        });
-      case "beacon":
-        clear();
-        return setArr((a) => {
-          return produce(a, (arrCopy) => {
-            for (let i = 0; i < a.length; i++) {
-              for (let j = 0; j < a[i].length; j++) {
-                arrCopy[13][13] = 1;
-                arrCopy[14][13] = 1;
-                arrCopy[13][14] = 1;
-                arrCopy[14][14] = 1;
-                arrCopy[15][15] = 1;
-                arrCopy[16][15] = 1;
-                arrCopy[15][16] = 1;
-                arrCopy[16][16] = 1;
-              }
-            }
-          });
-        });
-      case "pulsar":
-        clear();
-        return setArr((a) => {
-          return produce(a, (arrCopy) => {
-            for (let i = 0; i < a.length; i++) {
-              for (let j = 0; j < a[i].length; j++) {
-                arrCopy[11][14] = 1;
-                arrCopy[12][14] = 1;
-                arrCopy[13][14] = 1;
-                arrCopy[17][14] = 1;
-                arrCopy[18][14] = 1;
-                arrCopy[19][14] = 1;
-                arrCopy[11][16] = 1;
-                arrCopy[12][16] = 1;
-                arrCopy[13][16] = 1;
-                arrCopy[17][16] = 1;
-                arrCopy[18][16] = 1;
-                arrCopy[19][16] = 1;
-                arrCopy[11][9] = 1;
-                arrCopy[12][9] = 1;
-                arrCopy[13][9] = 1;
-                arrCopy[17][9] = 1;
-                arrCopy[18][9] = 1;
-                arrCopy[19][9] = 1;
-                arrCopy[11][9] = 1;
-                arrCopy[12][9] = 1;
-                arrCopy[13][9] = 1;
-                arrCopy[17][9] = 1;
-                arrCopy[18][9] = 1;
-                arrCopy[19][9] = 1;
-                arrCopy[11][21] = 1;
-                arrCopy[12][21] = 1;
-                arrCopy[13][21] = 1;
-                arrCopy[17][21] = 1;
-                arrCopy[18][21] = 1;
-                arrCopy[19][21] = 1;
-                arrCopy[11][21] = 1;
-                arrCopy[12][21] = 1;
-                arrCopy[13][21] = 1;
-                arrCopy[17][21] = 1;
-                arrCopy[18][21] = 1;
-                arrCopy[19][21] = 1;
-                arrCopy[14][11] = 1;
-                arrCopy[14][12] = 1;
-                arrCopy[14][13] = 1;
-                arrCopy[16][11] = 1;
-                arrCopy[16][12] = 1;
-                arrCopy[16][13] = 1;
-                arrCopy[14][17] = 1;
-                arrCopy[14][18] = 1;
-                arrCopy[14][19] = 1;
-                arrCopy[16][17] = 1;
-                arrCopy[16][18] = 1;
-                arrCopy[16][19] = 1;
-                arrCopy[9][11] = 1;
-                arrCopy[9][12] = 1;
-                arrCopy[9][13] = 1;
-                arrCopy[9][17] = 1;
-                arrCopy[9][18] = 1;
-                arrCopy[9][19] = 1;
-                arrCopy[21][11] = 1;
-                arrCopy[21][12] = 1;
-                arrCopy[21][13] = 1;
-                arrCopy[21][17] = 1;
-                arrCopy[21][18] = 1;
-                arrCopy[21][19] = 1;
-              }
-            }
-          });
-        });
-      case "pentadecathlon":
-        clear();
-        return setArr((a) => {
-          return produce(a, (arrCopy) => {
-            for (let i = 0; i < a.length; i++) {
-              for (let j = 0; j < a[i].length; j++) {
-                arrCopy[10][15] = 1;
-                arrCopy[11][15] = 1;
-                arrCopy[12][14] = 1;
-                arrCopy[12][16] = 1;
-                arrCopy[13][15] = 1;
-                arrCopy[14][15] = 1;
-                arrCopy[15][15] = 1;
-                arrCopy[16][15] = 1;
-                arrCopy[18][15] = 1;
-                arrCopy[19][15] = 1;
-                arrCopy[17][14] = 1;
-                arrCopy[17][16] = 1;
-              }
-            }
-          });
-        });
-      default:
-        return;
-    }
-  };
-
-  const handleSelect = (e) => {
-    setUserChoice(e.target.value);
   };
 
   const checkGrid = () => {
@@ -309,14 +153,26 @@ const Grid = (props) => {
         })}
       </div>
       <div className="btns">
-        <button className="btn" onClick={generateRandomGrid}>Random Grid</button>
-        <button className="btn" onClick={playButton}>Next Grid</button>
-        <button className="btn" onClick={clearButton}>Clear</button>
+        <button className="btn" onClick={generateRandomGrid}>
+          Random Grid
+        </button>
+        <button className="btn" onClick={playButton}>
+          Next Grid
+        </button>
+        <button className="btn" onClick={clearButton}>
+          Clear
+        </button>
         <button className="btn" onClick={startSim}>
           {!props.isRunning ? "Start" : "Stop"}
         </button>
       </div>
-      <Dropdown handleSelect={handleSelect} userChoice={userChoice} />
+      <Dropdown
+        clear={clear}
+        arr={arr}
+        setArr={setArr}
+        produce={produce}
+        setCount={setCount}
+      />
     </div>
   );
 };

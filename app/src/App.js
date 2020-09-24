@@ -3,6 +3,7 @@ import Grid from "./Grid";
 
 function App() {
   const [isRunning, setIsRunning] = useState(false);
+  
 
   return (
     <div className="App">
